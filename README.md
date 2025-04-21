@@ -1,6 +1,6 @@
 # Iris 👁️‍🗨️
 
-Iris is a Go implementation of [Glimpse](https://github.com/seatedro/glimpse), a command-line tool for quickly analyzing codebases, files, Git repositories, and web URLs. It helps LLMs better understand code structure, view content, and read documentation optimized for LLM consumption, and estimates token counts.
+Iris is a Go implementation of [Glimpse](https://github.com/seatedro/glimpse), a command-line tool for quickly analyzing codebases, files, Git repositories, and web URLs to load into an LLM's context. It displays directory trees, shows file content, counts tokens, and offers filters and multiple output options (like PDF or clipboard).
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/jadenpxrk/iris)](https://goreportcard.com/report/github.com/jadenpxrk/iris)
 

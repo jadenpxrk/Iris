@@ -1,4 +1,4 @@
-module iris
+module github.com/jadenpxrk/iris
 
 go 1.24
 
