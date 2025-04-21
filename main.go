@@ -58,7 +58,7 @@ var (
 )
 
 // version is the application version, set via ldflags.
-var version string = "dev" // Default for local builds
+var version string = "0.1.2" // Default for local/go install builds
 
 var rootCmd = &cobra.Command{
 	Use:   "iris [PATHS...]",
