@@ -57,12 +57,15 @@ var (
 	langData *LoadedLanguageData // Global or passed around?
 )
 
+// version is the application version, set via ldflags.
+var version string = "dev" // Default for local builds
+
 var rootCmd = &cobra.Command{
 	Use:   "iris [PATHS...]",
 	Short: "Iris is a tool for quickly analyzing codebases, similar to Glimpse.",
 	Long: `Iris allows you to process local directories, files, Git repositories,
 and web URLs to generate structure views, display content, and count tokens.`,
-	Version: "0.0.1",             // Placeholder version
+	Version: version,             // Use the variable here
 	Args:    cobra.ArbitraryArgs, // Allow paths to be passed as arguments
 	Run: func(cmd *cobra.Command, args []string) {
 		// initConfig and language loading are called via cobra.OnInitialize

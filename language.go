@@ -1,13 +1,16 @@
 package main
 
 import (
+	_ "embed"
 	"fmt"
-	"os"
 	"path/filepath"
 	"strings"
 
 	"gopkg.in/yaml.v3"
 )
+
+//go:embed languages.yml
+var languagesYAML []byte
 
 // LanguageInfo holds details about a specific programming/markup language.
 // We only include fields relevant for file detection for now.
@@ -30,38 +33,41 @@ type LoadedLanguageData struct {
 	filenameMap  map[string]string // Map filename (e.g., "Makefile") to language name ("Makefile")
 }
 
-// loadLanguageData attempts to load and parse languages.yml.
+// loadLanguageData attempts to load and parse the embedded languages.yml.
 func loadLanguageData() (*LoadedLanguageData, error) {
-	// Look for languages.yml in standard config paths
-	configPaths := []string{}
-	if home, err := os.UserHomeDir(); err == nil {
-		configPaths = append(configPaths, filepath.Join(home, ".config", "iris"))
-	}
-	configPaths = append(configPaths, ".") // Current directory
-
-	var langFilePath string
-	for _, p := range configPaths {
-		testPath := filepath.Join(p, "languages.yml")
-		if _, err := os.Stat(testPath); err == nil {
-			langFilePath = testPath
-			break
+	/*
+		// Look for languages.yml in standard config paths
+		configPaths := []string{}
+		if home, err := os.UserHomeDir(); err == nil {
+			configPaths = append(configPaths, filepath.Join(home, ".config", "iris"))
 		}
-	}
+		configPaths = append(configPaths, ".") // Current directory
 
-	if langFilePath == "" {
-		return nil, fmt.Errorf("languages.yml not found in standard config locations")
-	}
+		var langFilePath string
+		for _, p := range configPaths {
+			testPath := filepath.Join(p, "languages.yml")
+			if _, err := os.Stat(testPath); err == nil {
+				langFilePath = testPath
+				break
+			}
+		}
 
-	fmt.Printf("Loading language definitions from: %s\n", langFilePath)
-	yamlFile, err := os.ReadFile(langFilePath)
-	if err != nil {
-		return nil, fmt.Errorf("error reading language file %s: %w", langFilePath, err)
-	}
+		if langFilePath == "" {
+			return nil, fmt.Errorf("languages.yml not found in standard config locations")
+		}
+
+		fmt.Printf("Loading language definitions from: %s\n", langFilePath)
+		yamlFile, err := os.ReadFile(langFilePath)
+		if err != nil {
+			return nil, fmt.Errorf("error reading language file %s: %w", langFilePath, err)
+		}
+	*/
 
 	var langs LanguageMap
-	err = yaml.Unmarshal(yamlFile, &langs)
+	err := yaml.Unmarshal(languagesYAML, &langs) // Use embedded data
 	if err != nil {
-		return nil, fmt.Errorf("error parsing language file %s: %w", langFilePath, err)
+		// Use a more specific error message for embedded data failure
+		return nil, fmt.Errorf("error parsing embedded languages.yml: %w", err)
 	}
 
 	// Build lookup maps for faster matching
@@ -87,7 +93,7 @@ func loadLanguageData() (*LoadedLanguageData, error) {
 		}
 	}
 
-	fmt.Printf("Loaded %d languages with %d extensions and %d specific filenames.\n", len(data.Langs), len(data.extensionMap), len(data.filenameMap))
+	// fmt.Printf("Loaded %d languages with %d extensions and %d specific filenames.\n", len(data.Langs), len(data.extensionMap), len(data.filenameMap))
 	return data, nil
 }
 
