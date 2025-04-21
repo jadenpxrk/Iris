@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"runtime"
+	"runtime/debug"
 	"sort"
 	"strings"
 	"sync"
@@ -57,15 +58,16 @@ var (
 	langData *LoadedLanguageData // Global or passed around?
 )
 
-// version is the application version, set via ldflags.
-var version string = "0.1.3" // Default for local/go install builds
+// version holds the application version string.
+// It's set dynamically in init() using build info, but can be overridden by ldflags.
+var version string
 
 var rootCmd = &cobra.Command{
 	Use:   "iris [PATHS...]",
 	Short: "Iris is a tool for quickly analyzing codebases, similar to Glimpse.",
 	Long: `Iris allows you to process local directories, files, Git repositories,
 and web URLs to generate structure views, display content, and count tokens.`,
-	Version: version,             // Use the variable here
+	Version: version,             // Set dynamically by initVersion()
 	Args:    cobra.ArbitraryArgs, // Allow paths to be passed as arguments
 	Run: func(cmd *cobra.Command, args []string) {
 		// initConfig and language loading are called via cobra.OnInitialize
@@ -309,8 +311,8 @@ and web URLs to generate structure views, display content, and count tokens.`,
 }
 
 func init() {
-	// Initialize config first, then languages
-	cobra.OnInitialize(initConfig, initLanguages)
+	// Initialize version first, then config, then languages
+	cobra.OnInitialize(initVersion, initConfig, initLanguages)
 
 	// --- Flag Definitions & Viper Binding ---
 	// Optional: Allow specifying config file via flag
@@ -396,6 +398,28 @@ func init() {
 	viper.SetDefault("threads", 0)
 	viper.SetDefault("no_tokens", false)
 	viper.SetDefault("interactive", false)
+}
+
+// initVersion sets the version string dynamically from build info.
+func initVersion() {
+	// Check if version was already set by ldflags
+	if version != "" {
+		return
+	}
+
+	info, ok := debug.ReadBuildInfo()
+	if !ok {
+		version = "unknown"
+		return
+	}
+
+	// Use the module version info if available
+	version = info.Main.Version
+
+	// Default if no version info found (e.g., not built with module support or outside module context)
+	if version == "(devel)" || version == "" {
+		version = "devel"
+	}
 }
 
 // initConfig reads in config file and ENV variables if set.
