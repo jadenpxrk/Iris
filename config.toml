@@ -1,0 +1,66 @@
+# Example config.toml
+
+# --- Filtering ---
+
+# Default patterns to exclude (overrides built-in defaults if set)
+# Note: Use an array of strings for excludes in the config file.
+default_excludes = [
+    "**/.git/**",
+    "**/node_modules/**",
+    "**/target/**", # Maven/Rust target dirs
+    "**/.DS_Store",
+    "**/__pycache__/**",
+    "**/*.pyc",
+    "**/*.log",
+    "**/*.tmp",
+]
+
+# Maximum file size in bytes (e.g., 5MB = 5 * 1024 * 1024 = 5242880)
+# Default is 10MB (10485760)
+max_size = 5242880
+
+# Maximum directory depth to traverse (0 for unlimited)
+# Default is 20
+max_depth = 15
+
+# Show hidden files and directories (default: false)
+hidden = false
+
+# Don't respect .gitignore files (default: false)
+no_ignore = false
+
+# --- Output ---
+
+# Default output format: "tree", "files", or "both"
+# Default is "both"
+default_output_format = "files"
+
+# --- Processing ---
+
+# Number of threads for parallel processing (0 for auto based on CPU cores)
+# Default is 0
+threads = 4
+
+# --- Token Counting ---
+
+# Disable token counting (default: false)
+no_tokens = false
+
+# Default tokenizer: "tiktoken" or "huggingface"
+# Default is "tiktoken"
+default_tokenizer = "tiktoken"
+
+# Default model name for tokenizer (e.g., "gpt-4o", "gpt2")
+# Default is "" (tokenizer will use its own default, e.g., "gpt-4o" for tiktoken)
+default_tokenizer_model = "gpt-4o"
+
+# Path to local tokenizer file (only used if tokenizer is "huggingface" and this is set)
+# tokenizer_file = "/path/to/your/tokenizer.json"
+
+# --- Web Specific ---
+
+# Traverse links when processing URLs (default: false)
+traverse_links = false
+
+# Default maximum depth to traverse links (default: 1)
+default_link_depth = 1
