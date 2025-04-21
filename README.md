@@ -34,8 +34,33 @@ The basic command structure is:
 iris [OPTIONS] [PATHS...]
 ```
 
-- `OPTIONS`: Flags to control filtering, output, token counting, etc.
 - `PATHS...`: One or more local file paths, directory paths, Git repository URLs, or web URLs. Defaults to the current directory (`.`) if no paths are provided.
+
+**Available Options (Flags):**
+
+```
+  -c, --clipboard               Copy output to clipboard
+  -e, --exclude string          Additional patterns to exclude (comma-separated)
+  -f, --file string             Save output to specified file
+  -h, --help                    Help for iris
+  -H, --hidden                  Show hidden files and directories
+  -i, --include string          Additional patterns to include (comma-separated, e.g. *.rs,*.go)
+      --interactive             Opens interactive file picker (? for help)
+      --link-depth int          Maximum depth to traverse links (default 1)
+      --max-depth int           Maximum directory depth to traverse (0 for no limit)
+  -s, --max-size int            Maximum file size in bytes (0 for no limit)
+      --model string            Model name for tokenizer (e.g., gpt-4o, gpt2)
+      --no-ignore               Don't respect .gitignore files
+      --no-tokens               Disable token counting
+  -o, --output string           Output format: tree, files, or both (default "both")
+      --pdf string              Save output as PDF
+  -p, --print                   Print to stdout (default unless -f, -c, or --pdf used)
+  -t, --threads int             Number of threads for parallel processing (0 for auto)
+      --tokenizer string        Tokenizer to use: tiktoken or huggingface (default "tiktoken")
+      --tokenizer-file string   Path to local tokenizer file
+      --traverse-links          Traverse links when processing URLs
+  -v, --version                 Version for iris
+```
 
 Run `iris --help` to see all available options.
 
