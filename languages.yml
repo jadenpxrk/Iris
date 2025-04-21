@@ -1,0 +1,64 @@
+# Example languages.yml
+
+Go:
+  type: programming
+  # color: "#00ADD8"  # Optional: color for UI/highlighting
+  extensions:
+    - .go
+  # filenames: [] # Optional: specific filenames like 'go.mod' could be added
+  interpreters:
+    - go
+  language_id: 132 # Example ID
+
+Python:
+  type: programming
+  # color: "#3572A5"
+  extensions:
+    - .py
+    - .pyw
+    - .pyi # Interface files
+  filenames:
+    - PEP # Specific filename associated with Python
+    - MANIFEST.in
+  interpreters:
+    - python
+    - python3
+    - python2
+  language_id: 282
+
+YAML:
+  type: data
+  # color: "#cb171e"
+  extensions:
+    - .yaml
+    - .yml
+  # filenames: []
+  tm_scope: source.yaml # Example: TextMate scope
+  language_id: 396
+
+Markdown:
+  type: prose
+  # color: "#083fa1"
+  extensions:
+    - .md
+    - .markdown
+    - .mdown
+  # filenames: []
+  tm_scope: text.md
+  language_id: 222
+
+Makefile:
+  type: programming
+  # color: "#427819"
+  extensions:
+    - .mk
+    - .mak
+    - makefile
+  filenames:
+    - Makefile
+    - makefile
+    - GNUmakefile
+  interpreters:
+    - make
+  language_id: 224
+# Add more...
